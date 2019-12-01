@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Pinger pet-project</title>
+</head>
+<body>
+    <script>
+
+        function goPing() {
+            $("#result").html("wait ping processing....");
+            var data = 'host=' + $('#host').val() + '&count=' + $('#count').val();
+            if ($("#host").val() != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "/ping",
+                    data: data,
+                    success: function(data, textStatus, jqXHR){
+                        $("#result").html(jqXHR.responseText);
+                    },
+                    error: function(data, textStatus, jqXHR){
+                        console.log('ping execution error');
+                    }
+                });
+            } else {
+                $("#result").html("Please enter host name or ip adress");
+            }
+        }
+
+    </script>
+    <div class="container">
+        <h2>Pinger pet-project</h2>
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="#ping">Online tools</a></li>
+            <li><a data-toggle="pill" href="#menu1">Scheduler</a></li>
+            <li><a data-toggle="pill" href="#menu2">New task</a></li>
+        </ul>
+        <br>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="ping" >
+                <div class="container">
+                    <div class="row">
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="text" class="host form-control" placeholder="Host" id="host" />
+                                <span class="input-group-btn">
+                                    &ensp;Cnt:
+                                    <input type='number' value='4' min="1" max="20" id="count"/>
+                                    &ensp;
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button" value="PING" onclick="goPing();">
+                                        <span>PING</span>
+                                    </button>
+                                </span>
+                            </div>
+                            <br><br>
+                            <div>
+                                <span id="result">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <div class="container">
+                    Under condtruction :-)
+                </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <div class="container">
+                    Under condtruction :-)
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
