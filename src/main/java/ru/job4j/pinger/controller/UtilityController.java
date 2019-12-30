@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.job4j.pinger.PingImpl;
+import ru.job4j.pinger.models.TaskPingerDto;
 
 import java.net.UnknownHostException;
 
@@ -32,4 +33,10 @@ public class UtilityController {
         res = res.replaceAll("\n", "<br>");
         return  res;
     }
+
+    @PostMapping(value="/taskadd")
+    public void getTaskAdd(@ModelAttribute TaskPingerDto dto) { 
+            system.out.println();
+    }
+
 }

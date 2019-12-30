@@ -10,6 +10,10 @@
 </head>
 <body>
     <script>
+        var today;
+        $( document ).ready(function() {
+            today = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        });
 
         function goPing() {
             $("#result").html("wait ping processing....");
@@ -29,6 +33,20 @@
             } else {
                 $("#result").html("Please enter host name or ip adress");
             }
+        }
+
+        function today() {
+            if ($("#host").val() != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/taskadd",
+                    data: data,
+                    success: function(data, textStatus, jqXHR){
+                        },
+                    error: function(data, textStatus, jqXHR){
+                        }
+                });
+            };
         }
 
     </script>
@@ -67,16 +85,18 @@
                     </div>
                 </div>
             </div>
-            <div id="menu1" class="tab-pane fade">
-                <div class="container">
-                    Under condtruction :-)
-                </div>
+        <div id="menu1" class="tab-pane fade">
+            <div class="container">
+               Uses <pinger></pinger>
             </div>
-            <div id="menu2" class="tab-pane fade">
-                <div class="container">
-                    Under condtruction :-)
-                </div>
-            </div>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+               Uses <select id="sel1" name="sellist1"><option>pinger</option><option>tracert</option></select> to host <input type="texr" id="host2" name="text2">
+                at <input type="date" id="date1" value="today;"> to <input type="date" id="date2" value="date()+5;">. Every <input type="number" value="5" min="5" id="num"> <select id="sel2"><option>min</option><option>sek</option></select>.</br>
+                With <select id="sel3" name="sellist2"><option>result=all</option><option>result>60</option></select> uses <select id="sel4" name="sellist3"><option>email</option><option>telegrsmm</option></select>   <input type="texr" id="host3">
+                <button id="butt4" type="submit" value="save" onclick="today();">Save..</button>
+        </div>
+    </div>
         </div>
     </div>
 
