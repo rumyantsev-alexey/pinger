@@ -26,13 +26,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//        .antMatchers("/account", "/", "/webjars/**", "/v2/api-docs/**", "/configuration/ui/**", "/swagger-resources/**",
-//                "/configuration/security/**", "/swagger-ui.html/**", "/swagger-ui.html#/**", "/swagger-ui.html", "/csrf").permitAll()
-        .anyRequest().permitAll()
+        .antMatchers("/ping").permitAll()
         .and()
-        .csrf().disable();
-//        .httpBasic();
-   }
+        .csrf().disable()
+        .formLogin()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login/process")
+                .defaultSuccessUrl("/p")
+                .failureUrl("/login?errors")
+                .usernameParameter("login")
+                .passwordParameter("pass")
+        .and()
+                .logout()
+        .logoutSuccessUrl("/login.html");
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

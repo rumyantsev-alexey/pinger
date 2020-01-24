@@ -4,10 +4,10 @@ import javax.tools.Tool;
 import java.util.Date;
 
 public class TaskPingerDto {
-    private Tools tools;
-    private String string;
-    private Date date_begin;
-    private Date data_end;
+    private Tools sellist1;
+    private String text2;
+    private Date date1;
+    private Date date2;
     private int every;
     private String result;
     private ToolsFront fromtTools;

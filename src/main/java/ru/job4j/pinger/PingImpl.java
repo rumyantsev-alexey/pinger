@@ -31,7 +31,6 @@ public class PingImpl implements Ping {
     }
 
     @Override
-    @MyTestAnnotation
     public String reportPing(List<IcmpPingResponse> list) {
         IcmpPingResponse one = list.get(0);
         String header = "Pinging %s [%s] with %s bytes of data:\n\n";

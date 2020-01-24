@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Вход в систему объявлений</title>
+</head>
+<body>
+    <script>
+        function send() {
+//          ws = new WebSocket('ws://localhost:61616');
+//
+ //         ws.onopen = () => {
+//              ws.send('CONNECT\n\n\0');
+//
+//              ws.send('SEND\ndestination:DEMO-JMS-QUEUE\n\nSimples Assim\0');
+//
+//              ws.send('DISCONNECT\n\n\0');
+//          };
+            window.location.href = '/p'
+        }
+
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Вход в PINGER</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form accept-charset="UTF-8" role="form" method='post' action='/login/process'>
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Пользователь" name="login" id='login' type="text">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Пароль" name='pass' id='pass' type="password" value="">
+                                </div>
+                                <input class="btn btn-sm btn-default btn-block" type="reset" value="Сброс">
+                                <input class="btn btn-sm btn-success btn-block" type="submit" value="Вход">
+                            </fieldset>
+                        </form>
+                        <hr/>
+                        <h6>ИЛИ</h6>
+                        <input class="btn btn-sm btn-success btn-block" type="submit" value="Войти как гость" onclick="send();">
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>
