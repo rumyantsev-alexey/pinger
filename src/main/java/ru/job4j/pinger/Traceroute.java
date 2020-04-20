@@ -1,16 +1,15 @@
 package ru.job4j.pinger;
 
 import org.icmp4j.IcmpPingResponse;
-
 import java.net.UnknownHostException;
-import java.util.List;
+import java.util.Map;
 
-public interface Ping {
+public interface Traceroute {
     void setIp(String host) throws UnknownHostException;
     void setPacketsize(int packetsize);
     void setTTL(int ttl);
     void setTimeOut(long ttl);
 
-    List<IcmpPingResponse> ping(int count);
-    String reportPing(List<IcmpPingResponse> list);
+    Map<Integer, IcmpPingResponse> traceroute();
+    String reportTraceroute(Map <Integer, IcmpPingResponse>  list);
 }

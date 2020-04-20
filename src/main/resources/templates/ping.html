@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html">
+<html   xmlns="http://www.w3.org/1999/html"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
 <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-     <meta charset="UTF-8">
     <title>Pinger pet-project</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+<script type="text/javascript" th:inline="javascript">
 
-<script>
     function goPng() {
         data = 'host=' + $('#host').val() + '&count=' + $('#count').val();
         if ($("#host").val() != "") {
@@ -33,27 +30,32 @@
             $("#result").html("Please enter host name or ip adress");
         }
         //            $("#host").html();
-        isitem = setTimeout('timer();', 10000);
+//        isitem = setTimeout('timer();', 10000);
     }
 
-    function timer() {
-        if ('${rrr}' != null) {
-            f = "${rrr}";
+/*    function timer() {
+        if (typeof rrr !== "undefined") {
+            f = ${rrr};
             console.log(f);
             $("#result").html(f);
+        } else {
+            console.log("not define rrr")
         }
     }
-
+*/
 </script>
 
     <div class="container">
         <h2>Pinger pet-project</h2>
+        <div sec:authorize="isAuthenticated()">
+            Текущий пользователь: <span sec:authentication="principal.username"></span>
+        </div>
+        <form method='post' action='/logout'>
+            <input type='submit' class="btn btn-default btn-sm" name='but3' value='Поменять пользователя'/>
+        </form>
+        <br>
         <ul class="nav nav-pills">
             <li class="active"><a data-toggle="pill" href="#ping">Online tools</a></li>
-            Current user: sec:authentication="principal.username"
-            <form method='post' action='/logout' sec:authorize="isAuthenticated()">
-                <input type='submit' class="btn btn-default btn-sm" name='but3' value='Поменять пользователя'/>
-            </form>
             <li sec:authorize="isAuthenticated()"><a data-toggle="pill" href="#menu1">Scheduler</a></li>
             <li sec:authorize="isAuthenticated()"><a data-toggle="pill" href="#menu2">New task</a></li>
         </ul>
@@ -62,32 +64,30 @@
             <div class="tab-pane fade in active" id="ping" >
                 <div class="container">
                     <div class="row">
-                        <div id="custom-search-input">
-                            <div class="input-group col-md-12">
+                            <div class="input-group col-md-8">
                                 <input type="text" class="host form-control" placeholder="Host" id="host" />
-                                <span class="input-group-btn">
-                                    &ensp;Cnt:
-                                    <input type='number' value='4' min="1" max="20" id="count"/>&ensp;
-                                </span>
-                                <span class="input-group-btn">
+                                <div class="input-group-btn col-md-4">
+                                     Do:
+                                    <select id="sel7" ><option selected>Ping</option><option>Traceroute</option></select>
+                                     Cnt:
+                                    <input type='number' value='4' min="1" max="20" id="count"/>
                                     <button class="btn btn-danger" type="button" value="PING" onclick="goPng();">
-                                        <span>PING</span>
+                                        <span>Do IT!!!</span>
                                     </button>
-                                </span>
+                                </div>
                             </div>
                             <br><br>
                             <div>
                                 <span id="result">
                                 </span>
                             </div>
-                        </div>
-                    </div>
+                     </div>
                 </div>
             </div>
     <div sec:authorize="isAuthenticated()">
         <div id="menu1" class="tab-pane fade">
             <div class="container">
-               Uses <pinger></pinger>
+               Uses
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@
             <form  method = "POST" action =  "/taskadd">
                 Uses <select id="sel1" name="sellist1"><option>pinger</option><option>tracert</option></select> to host <input type="text" id="host2" name="text2">
                 at <input type="date" id="date1" value="date();"> to <input type="date" id="date2" value="date()+5;">. Every <input type="number" value="5" min="5" id="num"> <select id="sel2"><option>min</option><option>sek</option></select>.</br>
-                With <select id="sel3" name="sellist2"><option>result=all</option><option>result>60</option></select> uses <select id="sel4" name="sellist3"><option>email</option><option>telegrsmm</option></select>   <input type="texr" id="host3">
+                With <select id="sel3" name="sellist2"><option>result=all</option><option>result>60</option></select> uses <select id="sel4" name="sellist3"><option>email</option><option>telegramm</option></select>   <input type="texr" id="host3">
                 <button id="butt4" type="submit" value="save">Save..</button>
             </form>
         </div>

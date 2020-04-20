@@ -10,24 +10,39 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 @Component
-public class PingImpl implements Ping {
+public class PingImplIcmpPing implements Ping {
 
     private InetAddress ip = InetAddress.getLoopbackAddress();
+    private IcmpPingRequest ipr = new IcmpPingRequest();
 
+    {
+        ipr.setHost(InetAddress.getLoopbackAddress().toString());
+    }
+
+    @Override
     public void setIp(String host) throws UnknownHostException {
         this.ip = InetAddress.getByName(host);
+        this.ipr.setHost(host);
+    }
+
+    @Override
+    public void setPacketsize(int packetsize) {
+        this.ipr.setPacketSize(packetsize);
+    }
+
+    @Override
+    public void setTTL(int ttl) {
+        this.ipr.setTtl(ttl);
+    }
+
+    @Override
+    public void setTimeOut(long ttl) {
+        this.ipr.setTimeout(ttl);
     }
 
     @Override
     public List<IcmpPingResponse> ping(int count) {
-        IcmpPingRequest req = IcmpPingUtil.createIcmpPingRequest();
-        req.setHost(this.ip.getHostAddress());
-        return IcmpPingUtil.executePingRequests(req, count <= 1 ? 2 : count + 1);
-    }
-
-    @Override
-    public List<IcmpPingResponse> ping() {
-        return this.ping(4);
+        return IcmpPingUtil.executePingRequests(ipr, count < 0? 2: count + 1);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("pass")
         .and()
                 .logout()
-        .logoutSuccessUrl("/login.html");
+        .logoutSuccessUrl("/");
     }
 
     @Bean

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.job4j.pinger.PingImpl;
+import ru.job4j.pinger.PingImplIcmpPing;
 import ru.job4j.pinger.models.TaskPingerDto;
 
 import java.net.UnknownHostException;
@@ -15,12 +15,17 @@ import java.security.Principal;
 import java.util.concurrent.ExecutionException;
 
 @Controller
-public class UtilityController {
+public class BackSideController {
 
     AsyncResult<String> rrr;
 
     @Autowired
-    private PingImpl ppp;
+    private PingImplIcmpPing ppp;
+
+    @PostMapping (value = "/")
+    public String getMain2() {
+        return "login";
+    }
 
     @GetMapping (value = "/")
     public String getMain() {
@@ -57,7 +62,7 @@ public class UtilityController {
         String res;
         res = ppp.reportPing(ppp.ping(count));
         res = res.replaceAll("\n", "<br>");
-        model.addAttribute("rrr", rrr);
+        model.addAttribute("rrr", res);
         return new AsyncResult<>(res);
     }
 
