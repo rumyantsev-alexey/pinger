@@ -1,18 +1,16 @@
 package ru.job4j.pinger.models;
 
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
 
-        @Id
-        @GeneratedValue (strategy = GenerationType.SEQUENCE)
+       @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
         @Getter
         private int id;
 
@@ -33,5 +31,4 @@ public class User {
         @Email
         @Column(name = "email")
         private String email;
-
 }

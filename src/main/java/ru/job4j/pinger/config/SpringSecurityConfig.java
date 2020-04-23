@@ -27,6 +27,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .antMatchers("/ping").permitAll()
+        .antMatchers("/taskadd").authenticated()
         .and()
         .csrf().disable()
         .formLogin()

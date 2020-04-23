@@ -10,7 +10,30 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<script type="text/javascript" th:inline="javascript">
+<script>
+    var today;
+
+    $( document ).ready(function() {
+        var date = new Date();
+        currentDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        currentTime = ('0' + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
+        today = currentDate + "T" + currentTime;
+        $("#date1").prop('value', today);
+        $("#date1").prop('min', today);
+        $("#date2").prop('value', today);
+        $("#date2").prop('min', today);
+   }
+    );
+
+    function onChangeDate(value) {
+        $("#date2").prop('value', value);
+        $("#date2").prop('min', value);
+    }
+
+    function goAct() {
+        var data = $('#form1').serialize();
+        $.post('/taskadd', data);
+    }
 
     function goPng() {
         data = 'host=' + $('#host').val() + '&count=' + $('#count').val();
@@ -29,20 +52,20 @@
         } else {
             $("#result").html("Please enter host name or ip adress");
         }
-        //            $("#host").html();
-//        isitem = setTimeout('timer();', 10000);
+/*                    $("#host").html();
+        isitem = setTimeout('timer();', 10000); */
     }
 
-/*    function timer() {
-        if (typeof rrr !== "undefined") {
-            f = ${rrr};
-            console.log(f);
+ /*   function timer() {
+        if (typeof rrr != "undefined") {
+            f = typeof rrr;
+            console.log(${rrr});
             $("#result").html(f);
         } else {
             console.log("not define rrr")
         }
-    }
-*/
+    } */
+
 </script>
 
     <div class="container">
@@ -51,26 +74,38 @@
             Текущий пользователь: <span sec:authentication="principal.username"></span>
         </div>
         <form method='post' action='/logout'>
-            <input type='submit' class="btn btn-default btn-sm" name='but3' value='Поменять пользователя'/>
+            <button class="btn btn-outline-primary" type="submit">
+                <span>Change user</span>
+            </button>
         </form>
         <br>
-        <ul class="nav nav-pills">
-            <li class="active"><a data-toggle="pill" href="#ping">Online tools</a></li>
-            <li sec:authorize="isAuthenticated()"><a data-toggle="pill" href="#menu1">Scheduler</a></li>
-            <li sec:authorize="isAuthenticated()"><a data-toggle="pill" href="#menu2">New task</a></li>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#ping">Online tools</a></li>
+            <li sec:authorize="isAuthenticated()"><a data-toggle="tab" href="#menu1">Scheduler</a></li>
+            <li sec:authorize="isAuthenticated()"><a data-toggle="tab" href="#menu2">New task</a></li>
         </ul>
         <br>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="ping" >
                 <div class="container">
                     <div class="row">
-                            <div class="input-group col-md-8">
+                            <div class="input-group col-md-12">
                                 <input type="text" class="host form-control" placeholder="Host" id="host" />
-                                <div class="input-group-btn col-md-4">
+                                <div class="input-group-1">
+                                    <span>
                                      Do:
+                                    </span>
+                                    <span>
                                     <select id="sel7" ><option selected>Ping</option><option>Traceroute</option></select>
-                                     Cnt:
+                                    </span>
+                                    <span>
+                                    Cnt:
+                                    </span>
+                                    <span>
                                     <input type='number' value='4' min="1" max="20" id="count"/>
+                                    </span>
+                                </div>
+                                <div class="input-group-btn">
                                     <button class="btn btn-danger" type="button" value="PING" onclick="goPng();">
                                         <span>Do IT!!!</span>
                                     </button>
@@ -84,27 +119,24 @@
                      </div>
                 </div>
             </div>
-    <div sec:authorize="isAuthenticated()">
-        <div id="menu1" class="tab-pane fade">
-            <div class="container">
-               Uses
+            <div id="menu1" class="tab-pane fade">
+                <div class="container">
+               Under constructions
+                </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <div class="container">
+                    <form id="form1">
+                        Name task:<input type="text" id="name1" name="name1"> </br>
+                        Uses <select id="sel1" name="sellist1" onchange=" $('#count1').prop('hidden', this.value == 'traceroute');"><option selected>pinger</option><option>traceroute</option></select> <span id="count1">cnt=<input type="number" value="1" min="1" id="cnt" name="cnt"></span> packetsize=<input type="number" value="32" min="1" id="packetsize" name="packetsize"> ttl=<input type="number" value="53" min="1" id="ttl" name="ttl"> timeout=<input type="number" value="53" min="1" id="timeout" name="timeout"></br>
+                        to host <input type="text" id="host2" name="text2"> at <input type="datetime-local" id="date1" name="date1" onchange="onChangeDate(this.value);"> to <input type="datetime-local" id="date2" name="date2">.
+                        Every <input type="number" value="1" min="1" id="num" name="text3"> <select id="sel2" name="sellist2">><option>days</option><option selected>hrs</option><option>min</option></select>.</br>
+                        With <select id="sel3" name="sellist3"><option selected>result=all</option><option>result>60</option></select> uses <select id="sel4" name="sellist4"><option>email</option><option>telegramm</option></select>   <input type="texr" id="host3" name="text4">
+                        <button id="butt4" type="button" value="save" onclick="goAct();">Save..</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <div sec:authorize="isAuthenticated()">
-        <div id="menu2" class="tab-pane fade">
-            <form  method = "POST" action =  "/taskadd">
-                Uses <select id="sel1" name="sellist1"><option>pinger</option><option>tracert</option></select> to host <input type="text" id="host2" name="text2">
-                at <input type="date" id="date1" value="date();"> to <input type="date" id="date2" value="date()+5;">. Every <input type="number" value="5" min="5" id="num"> <select id="sel2"><option>min</option><option>sek</option></select>.</br>
-                With <select id="sel3" name="sellist2"><option>result=all</option><option>result>60</option></select> uses <select id="sel4" name="sellist3"><option>email</option><option>telegramm</option></select>   <input type="texr" id="host3">
-                <button id="butt4" type="submit" value="save">Save..</button>
-            </form>
-        </div>
-    </div>
-
-    </div>
-    </div>
-    </div>
-
 </body>
 </html>

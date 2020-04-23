@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.pinger.PingImplIcmpPing;
-import ru.job4j.pinger.models.TaskPingerDto;
+import ru.job4j.pinger.models.Task;
+import ru.job4j.pinger.models.TaskDto;
+import ru.job4j.pinger.models.UserDto;
+import ru.job4j.pinger.repositories.TaskRepository;
 
 import java.net.UnknownHostException;
 import java.security.Principal;
@@ -17,24 +20,23 @@ import java.util.concurrent.ExecutionException;
 @Controller
 public class BackSideController {
 
-    AsyncResult<String> rrr;
-
     @Autowired
     private PingImplIcmpPing ppp;
 
-    @PostMapping (value = "/")
-    public String getMain2() {
-        return "login";
-    }
+    @Autowired
+    private TaskRepository ttt;
+
+    @Autowired
+    private UserDto u;
 
     @GetMapping (value = "/")
     public String getMain() {
         return "login";
     }
 
-    @GetMapping(value = "/p")
-    public String getP() {
-        return  "ping";
+    @GetMapping (value = "/p")
+    public String getMain2() {
+        return "ping";
     }
 
     @GetMapping(value = "/ping")
@@ -46,18 +48,20 @@ public class BackSideController {
             return String.format("Ping request could not find host %s. Please check the name and try again.", host);
         }
         res = "wait ping processing....";
-        pr(host, count, model);
+//        pr(host, count, model);
         return  res;
     }
 
     @PostMapping(value = "/taskadd")
-    public  @ResponseBody Principal getTaskAdd(@ModelAttribute TaskPingerDto dto, Model model, Principal princ) {
-        model.addAttribute("prince", princ);
-        //            system.out.println(dto);
-        return princ;
+    public @ResponseBody String getTaskAdd(@ModelAttribute TaskDto dto, Principal princ) {
+        u.setName(princ.getName());
+        Task task = dto.convertToTask(dto, u);
+        ttt.save(task);
+        return "ok";
+
     }
 
-    @Async
+/*    @Async
     public AsyncResult<String> pr(String host, int count, Model model) {
         String res;
         res = ppp.reportPing(ppp.ping(count));
@@ -65,6 +69,6 @@ public class BackSideController {
         model.addAttribute("rrr", res);
         return new AsyncResult<>(res);
     }
-
+*/
 
 }
