@@ -1,4 +1,4 @@
-package ru.job4j.pinger;
+package ru.job4j.pinger.clasez;
 
 import org.icmp4j.IcmpPingResponse;
 import java.net.UnknownHostException;
@@ -11,5 +11,5 @@ public interface Traceroute {
     void setTimeOut(long ttl);
 
     Map<Integer, IcmpPingResponse> traceroute();
-    String reportTraceroute(Map <Integer, IcmpPingResponse>  list);
+    String reportTraceroute(Map<Integer, IcmpPingResponse>  list);
 }

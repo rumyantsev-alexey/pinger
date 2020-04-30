@@ -1,10 +1,11 @@
-package ru.job4j.pinger.models;
+package ru.job4j.pinger.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.job4j.pinger.models.User;
 import ru.job4j.pinger.repositories.UsersRepository;
 
 @Getter

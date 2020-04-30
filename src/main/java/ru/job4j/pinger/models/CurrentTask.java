@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
+import ru.job4j.pinger.clasez.Result;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "quartz_tasks")
-public class QuartzTask {
+@Table(name = "tasks")
+public class CurrentTask {
 
 
     @Id
@@ -29,18 +29,22 @@ public class QuartzTask {
     @Getter
     @Setter
     @NonNull
-    @Column(name = "trig")
-    private Trigger trig;
+    @Column(name = "begin")
+    private Timestamp begin;
 
     @Getter
     @Setter
-    @NonNull
-    @Column(name = "job")
-    private JobDetail job;
+    @Column(name = "period")
+    private Long period;
 
     @Getter
     @Setter
     @NonNull
     @OneToOne(cascade = {CascadeType.REFRESH})
     private Task task;
+
+    @Getter
+    @Setter
+    @NonNull
+    private Boolean review = true;
 }

@@ -1,4 +1,4 @@
-package ru.job4j.pinger;
+package ru.job4j.pinger.clasez;
 
 import org.icmp4j.IcmpPingResponse;
 

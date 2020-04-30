@@ -1,14 +1,12 @@
-package ru.job4j.pinger;
+package ru.job4j.pinger.clasez;
 
 
 import org.icmp4j.IcmpPingResponse;
 import org.icmp4j.IcmpTraceRouteRequest;
 import org.icmp4j.IcmpTraceRouteUtil;
 
-import org.icmp4j.platform.windows.jna.IcmpLibrary;
 import org.springframework.stereotype.Component;
 
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
@@ -87,16 +85,16 @@ public class TracerouteImplIcmpTraceroute implements Traceroute {
     }
 
     @Override
-    public Map <Integer, IcmpPingResponse>  traceroute() {
-        Map <Integer, IcmpPingResponse> list;
+    public Map<Integer, IcmpPingResponse>  traceroute() {
+        Map<Integer, IcmpPingResponse> list;
         list = IcmpTraceRouteUtil.executeTraceRoute(ipr).getTtlToResponseMap();
         return list;
     }
 
     @Override
-    public String reportTraceroute(Map <Integer, IcmpPingResponse>  list) {
-        String header = "Tracing route to %s [%s]\n" +
-                "over a maximum of 30 hops:\n\n";
+    public String reportTraceroute(Map<Integer, IcmpPingResponse>  list) {
+        String header = "Tracing route to %s [%s]\n"
+                + "over a maximum of 30 hops:\n\n";
         String body = "%s  %s ms     %s ms     %s ms  %s [%s]\n";
         String footer = "\nTrace complete.";
         StringBuilder result = new StringBuilder();
@@ -115,8 +113,8 @@ public class TracerouteImplIcmpTraceroute implements Traceroute {
         return result.toString();
     }
 
-    private Map <Integer, IcmpPingResponse> normal(Map <Integer, IcmpPingResponse> list) {
-        Map <Integer, IcmpPingResponse> result = new TreeMap<>();
+    private Map<Integer, IcmpPingResponse> normal(Map<Integer, IcmpPingResponse> list) {
+        Map<Integer, IcmpPingResponse> result = new TreeMap<>();
         for (Integer i: list.keySet()) {
             IcmpPingResponse a = list.get(i);
             result.put(i, a);

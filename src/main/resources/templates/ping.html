@@ -20,19 +20,45 @@
         today = currentDate + "T" + currentTime;
         $("#date1").prop('value', today);
         $("#date1").prop('min', today);
-        $("#date2").prop('value', today);
-        $("#date2").prop('min', today);
    }
     );
 
-    function onChangeDate(value) {
-        $("#date2").prop('value', value);
-        $("#date2").prop('min', value);
+    function getSpaces() {
+        var date = new Date();
+        currentDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        currentTime = ('0' + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
+        today = currentDate + "T" + currentTime;
+        $("#date1").prop('value', today);
+        $("#date1").prop('min', today);
+        $("#name1").prop('value', "");
+        $("#host2").prop('value', "");
+        $("#host3").prop('value', "");
+    }
+
+    function getList() {
+        $.ajax({
+            type: "GET",
+            url: "/list",
+            success: function(data, textStatus, jqXHR) {
+                $("#tbody").html(data);
+            },
+            error: function(data, textStatus, jqXHR){
+                console.log('get list error');
+            }
+       });
     }
 
     function goAct() {
         var data = $('#form1').serialize();
-        $.post('/taskadd', data);
+        $.ajax({
+            type: "POST",
+            url: '/taskadd',
+            data: data,
+            success: function(data, textStatus, jqXHR) {
+                console.log(jqXHR.responseText);
+//                window.location.href = '/ping';
+            }
+        });
     }
 
     function goPng() {
@@ -44,9 +70,6 @@
                 data: data,
                 success: function(data, textStatus, jqXHR) {
                     $("#result").html(jqXHR.responseText);
-                },
-                error: function(data, textStatus, jqXHR){
-                    console.log('ping execution error');
                 }
             });
         } else {
@@ -80,9 +103,9 @@
         </form>
         <br>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#ping">Online tools</a></li>
-            <li sec:authorize="isAuthenticated()"><a data-toggle="tab" href="#menu1">Scheduler</a></li>
-            <li sec:authorize="isAuthenticated()"><a data-toggle="tab" href="#menu2">New task</a></li>
+            <li class="active"><a data-toggle="tab" href="#ping" onclick="$('#host').prop('value', '');">Online tools</a></li>
+            <li sec:authorize="isAuthenticated()"><a data-toggle="tab" href="#menu1" onclick="getList();">Scheduler</a></li>
+            <li sec:authorize="isAuthenticated()"><a data-toggle="tab" href="#menu2" onclick="getSpaces();">New task</a></li>
         </ul>
         <br>
         <div class="tab-content">
@@ -121,7 +144,20 @@
             </div>
             <div id="menu1" class="tab-pane fade">
                 <div class="container">
-               Under constructions
+                    <table class="table table-hover" id="List">
+                        <thead>
+                        <tr>
+                            <th>Tools</th>
+                            <th>Host</th>
+                            <th>Begin</th>
+                            <th>Every</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
             <div id="menu2" class="tab-pane fade">
@@ -129,8 +165,7 @@
                     <form id="form1">
                         Name task:<input type="text" id="name1" name="name1"> </br>
                         Uses <select id="sel1" name="sellist1" onchange=" $('#count1').prop('hidden', this.value == 'traceroute');"><option selected>pinger</option><option>traceroute</option></select> <span id="count1">cnt=<input type="number" value="1" min="1" id="cnt" name="cnt"></span> packetsize=<input type="number" value="32" min="1" id="packetsize" name="packetsize"> ttl=<input type="number" value="53" min="1" id="ttl" name="ttl"> timeout=<input type="number" value="53" min="1" id="timeout" name="timeout"></br>
-                        to host <input type="text" id="host2" name="text2"> at <input type="datetime-local" id="date1" name="date1" onchange="onChangeDate(this.value);"> to <input type="datetime-local" id="date2" name="date2">.
-                        Every <input type="number" value="1" min="1" id="num" name="text3"> <select id="sel2" name="sellist2">><option>days</option><option selected>hrs</option><option>min</option></select>.</br>
+                        to host <input type="text" id="host2" name="text2"> at <input type="datetime-local" id="date1" name="date1">. Every <input type="number" value="1" min="1" id="num" name="text3"> <select id="sel2" name="sellist2"><option>yrs</option><option>mns</option><option>wks</option><option>days</option><option selected>hrs</option><option>mins</option></select>.</br>
                         With <select id="sel3" name="sellist3"><option selected>result=all</option><option>result>60</option></select> uses <select id="sel4" name="sellist4"><option>email</option><option>telegramm</option></select>   <input type="texr" id="host3" name="text4">
                         <button id="butt4" type="button" value="save" onclick="goAct();">Save..</button>
                     </form>

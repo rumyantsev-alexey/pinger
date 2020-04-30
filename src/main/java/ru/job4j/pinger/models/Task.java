@@ -4,13 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import ru.job4j.pinger.clasez.Tools;
+import ru.job4j.pinger.clasez.ToolsFront;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "curr_task")
+@Table(name = "archive"
+)
 public class Task {
 
     @Id
@@ -71,13 +74,7 @@ public class Task {
     @Column(name = "at_time")
     private Timestamp date1;
 
-    @Getter
-    @Setter
-    @NonNull
-    @Column(name = "to_time")
-    private Timestamp date2;
-
-    @Getter
+   @Getter
     @Setter
     @NonNull
     @Column(name = "time")
@@ -103,10 +100,5 @@ public class Task {
     @Setter
     @Column(name = "filter3")
     private String text4;
-
-    @Getter
-    @Setter
-    @Column(name = "review")
-    private Boolean review;
 
 }

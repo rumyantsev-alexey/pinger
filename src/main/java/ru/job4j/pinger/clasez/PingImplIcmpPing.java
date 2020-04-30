@@ -1,5 +1,6 @@
-package ru.job4j.pinger;
+package ru.job4j.pinger.clasez;
 
+import lombok.NoArgsConstructor;
 import org.icmp4j.IcmpPingRequest;
 import org.icmp4j.IcmpPingResponse;
 import org.icmp4j.IcmpPingUtil;
@@ -10,14 +11,26 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 @Component
+@NoArgsConstructor
 public class PingImplIcmpPing implements Ping {
 
     private InetAddress ip = InetAddress.getLoopbackAddress();
     private IcmpPingRequest ipr = new IcmpPingRequest();
+    private Integer cnt;
 
     {
         ipr.setHost(InetAddress.getLoopbackAddress().toString());
     }
+
+    public void PingImpIcmpPing (String host, Integer count, Integer packetsize, Integer ttl, Integer timeout) throws UnknownHostException {
+        this.setIp(host);
+        this.setTimeOut(timeout);
+        this.setPacketsize(packetsize);
+        this.setTTL(ttl);
+        cnt = count;
+
+    }
+
 
     @Override
     public void setIp(String host) throws UnknownHostException {
@@ -42,7 +55,7 @@ public class PingImplIcmpPing implements Ping {
 
     @Override
     public List<IcmpPingResponse> ping(int count) {
-        return IcmpPingUtil.executePingRequests(ipr, count < 0? 2: count + 1);
+        return IcmpPingUtil.executePingRequests(ipr, count < 0 ? 2 : count + 1);
     }
 
     @Override
